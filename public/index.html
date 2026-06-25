@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOS PINK - Cute & Soft Management</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- LOGIN SCREEN OVERLAY (Shown if not logged in) -->
+    <div id="login-wrapper" class="d-flex align-items-center justify-content-center position-fixed w-100 h-100 top-0 start-0 z-max d-none">
+        <div class="login-card p-4 p-md-5 text-center shadow-lg border border-light-pink rounded-5 bg-white">
+            <div class="brand-logo mb-4">
+                <h1 class="logo-title fs-1"><i class="bi bi-heart-fill text-pink-accent me-2"></i>KOS PINK</h1>
+                <p class="logo-subtitle fs-7">Cute & Soft Living</p>
+            </div>
+            
+            <!-- Login View -->
+            <div id="login-view">
+                <h4 class="fw-bold text-pink-dark mb-4 text-uppercase letter-spacing-1">Sign In</h4>
+                
+                <div id="login-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+                    <span id="login-error-msg">Username atau password salah!</span>
+                </div>
+
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="mb-3 text-start">
+                        <label for="login-username" class="form-label text-pink-muted fw-bold">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-person text-pink-muted"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="login-username" required placeholder="Masukkan username">
+                        </div>
+                    </div>
+                    <div class="mb-4 text-start">
+                        <label for="login-password" class="form-label text-pink-muted fw-bold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-pink-muted"></i></span>
+                            <input type="password" class="form-control border-start-0 ps-0" id="login-password" required placeholder="Masukkan password">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-gold w-100 text-white fw-bold text-uppercase py-2 rounded-pill mb-3">Masuk</button>
+                    <div class="fs-7 text-pink-muted">
+                        Belum punya akun? <a href="#" class="text-pink-accent fw-bold text-decoration-none" onclick="toggleAuthView('register')">Daftar di sini</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Register View -->
+            <div id="register-view" class="d-none">
+                <h4 class="fw-bold text-pink-dark mb-4 text-uppercase letter-spacing-1">Sign Up</h4>
+                
+                <div id="register-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+                    <span id="register-error-msg">Registrasi gagal!</span>
+                </div>
+                
+                <div id="register-success-alert" class="alert alert-success alert-dismissible fade show d-none" role="alert">
+                    <span id="register-success-msg">Registrasi berhasil!</span>
+                </div>
+
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="mb-3 text-start">
+                        <label for="register-username" class="form-label text-pink-muted fw-bold">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-person text-pink-muted"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="register-username" required placeholder="Pilih username baru">
+                        </div>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="register-password" class="form-label text-pink-muted fw-bold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-pink-muted"></i></span>
+                            <input type="password" class="form-control border-start-0 ps-0" id="register-password" required placeholder="Buat password baru">
+                        </div>
+                    </div>
+                    <div class="mb-4 text-start">
+                        <label for="register-confirm-password" class="form-label text-pink-muted fw-bold">Konfirmasi Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock-fill text-pink-muted"></i></span>
+                            <input type="password" class="form-control border-start-0 ps-0" id="register-confirm-password" required placeholder="Ulangi password baru">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-gold w-100 text-white fw-bold text-uppercase py-2 rounded-pill mb-3">Daftar</button>
+                    <div class="fs-7 text-pink-muted">
+                        Sudah punya akun? <a href="#" class="text-pink-accent fw-bold text-decoration-none" onclick="toggleAuthView('login')">Masuk di sini</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTENT WRAPPER -->
+    <div id="app-wrapper">
+
+    <!-- Minimalist Top Navigation Menu Bar -->
+    <header class="bg-cream pt-4 pb-2 border-bottom border-light-pink">
+        <nav class="navbar navbar-expand-lg justify-content-center p-0">
+            <div class="container-fluid justify-content-center flex-column">
+                <!-- Big Brand Header Centered -->
+                <div class="brand-logo mb-3 text-center">
+                    <h1 class="logo-title"><i class="bi bi-heart-fill text-pink-accent me-2"></i>KOS PINK</h1>
+                    <p class="logo-subtitle">Cute & Soft Living</p>
+                </div>
+                
+                <!-- Menu Links -->
+                <button class="navbar-toggler border-0 text-pink-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <i class="bi bi-list fs-2"></i>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav gap-4 text-center my-2 justify-content-center">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active" data-target="dashboard">DASHBOARD</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-target="kamar">DATA KAMAR</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-target="penghuni">DATA PENGHUNI</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-target="listrik">PEMBAYARAN LISTRIK</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-target="tahunan">PEMBAYARAN TAHUNAN</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-target="laporan">LAPORAN</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-danger fw-bold" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i>LOGOUT</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Outer Container -->
+    <div class="main-body-container">
+        
+        <!-- MARKETING BLOCKS (Visible only on Dashboard) -->
+        <div id="marketing-blocks" class="container py-4">
+            
+            <!-- 1. Hero Banner Section -->
+            <section class="hero-banner p-4 p-md-5 mb-5 rounded-5 position-relative overflow-hidden">
+                <div class="row align-items-center justify-content-between g-4">
+                    <div class="col-lg-5 text-center text-lg-start z-3 position-relative">
+                        <h2 class="hero-title text-pink-dark mb-3">Bite into<br>Comfort.</h2>
+                        <p class="hero-lead text-pink-muted mb-4">Temukan kenyamanan tinggal di KOS PINK. Desain interior estetik, fasilitas lengkap, dan suasana yang ramah untuk hunian impian Anda.</p>
+                        <button class="btn btn-gold rounded-pill px-4 py-2 text-uppercase text-white fw-bold" onclick="showSection('kamar')">Lihat Kamar</button>
+                    </div>
+                    <div class="col-lg-6 text-center position-relative z-3">
+                        <div class="hero-img-frame shadow-lg">
+                            <img src="/images/hero_room.png" alt="Cozy Pink Room" class="img-fluid rounded-circle">
+                        </div>
+                    </div>
+                </div>
+                <!-- Light decorative pink background shape -->
+                <div class="hero-bg-blob"></div>
+            </section>
+
+            <!-- 2. Room Grid Section (Our Choices - matches "Handcrafted Cakes") -->
+            <section class="py-4 mb-5">
+                <div class="text-center mb-5">
+                    <h3 class="section-title text-uppercase">Our Cozy Rooms</h3>
+                    <p class="section-subtitle">Pilihan Kamar Kost Ternyaman Untuk Anda</p>
+                    <div class="title-divider-line"></div>
+                </div>
+                
+                <div class="row g-4 align-items-stretch">
+                    <!-- Cards Grid -->
+                    <div class="col-lg-8">
+                        <div class="row g-3">
+                            <div class="col-sm-6 col-md-4">
+                                <div class="product-card text-center p-3 bg-white shadow-sm rounded-4 h-100 d-flex flex-column justify-content-between">
+                                    <div class="product-img-wrapper mb-3 rounded-3 overflow-hidden">
+                                        <img src="/images/hero_room.png" class="img-fluid" alt="Kamar 101">
+                                    </div>
+                                    <h5 class="fw-bold text-pink-dark mb-1">Kamar 101</h5>
+                                    <p class="text-pink-muted small mb-3">Lantai 1 • Kapasitas 2 Orang</p>
+                                    <div class="d-flex justify-content-between align-items-center px-1">
+                                        <span class="price-text">Rp 1.000K</span>
+                                        <span class="badge bg-success-subtle text-success">Tersedia</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6 col-md-4">
+                                <div class="product-card text-center p-3 bg-white shadow-sm rounded-4 h-100 d-flex flex-column justify-content-between">
+                                    <div class="product-img-wrapper mb-3 rounded-3 overflow-hidden">
+                                        <img src="/images/hero_room.png" class="img-fluid" alt="Kamar 102">
+                                    </div>
+                                    <h5 class="fw-bold text-pink-dark mb-1">Kamar 102</h5>
+                                    <p class="text-pink-muted small mb-3">Lantai 1 • Kapasitas 1 Orang</p>
+                                    <div class="d-flex justify-content-between align-items-center px-1">
+                                        <span class="price-text">Rp 1.200K</span>
+                                        <span class="badge bg-danger-subtle text-danger">Penuh</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-4">
+                                <div class="product-card text-center p-3 bg-white shadow-sm rounded-4 h-100 d-flex flex-column justify-content-between">
+                                    <div class="product-img-wrapper mb-3 rounded-3 overflow-hidden">
+                                        <img src="/images/hero_room.png" class="img-fluid" alt="Kamar 201">
+                                    </div>
+                                    <h5 class="fw-bold text-pink-dark mb-1">Kamar 201</h5>
+                                    <p class="text-pink-muted small mb-3">Lantai 2 • Kapasitas 2 Orang</p>
+                                    <div class="d-flex justify-content-between align-items-center px-1">
+                                        <span class="price-text">Rp 1.000K</span>
+                                        <span class="badge bg-success-subtle text-success">Tersedia</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Promotions Block (Right side of Grid) -->
+                    <div class="col-lg-4">
+                        <div class="promo-box bg-white p-4 shadow-sm rounded-4 h-100 d-flex flex-column justify-content-center text-center">
+                            <h4 class="promo-box-title text-pink-dark mb-2">SEASONAL SPECIALS</h4>
+                            <h3 class="promo-discount mb-3">15% OFF</h3>
+                            <p class="text-pink-muted small mb-4">Dapatkan diskon sewa bulanan dan listrik sebesar 15% khusus bagi penghuni baru pada bulan pertama tinggal.</p>
+                            <button class="btn btn-gold text-white rounded-pill px-4 py-2 mx-auto fw-bold" onclick="showSection('penghuni')">DAFTAR SEKARANG</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Bottom Promo Banner (Matches "Limited Time Promo") -->
+            <section class="row g-0 rounded-5 overflow-hidden mb-5 shadow-sm border border-light-pink">
+                <div class="col-md-6 bg-pink-banner p-5 d-flex flex-column justify-content-center text-center text-md-start">
+                    <h4 class="banner-tag text-pink-dark mb-2">LIMITED TIME PROMO</h4>
+                    <p class="text-pink-muted small mb-4">Nikmati keindahan ruang santai bersama (lobby lounge) berestetika pink pastel yang nyaman untuk berkumpul bersama teman kost.</p>
+                    <div class="d-flex gap-3 justify-content-center justify-content-md-start mb-4">
+                        <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6 banner-img-wrapper">
+                    <img src="/images/lounge_lobby.png" class="img-fluid object-cover w-100 h-100" alt="Lobby Lounge">
+                </div>
+            </section>
+        </div>
+
+        <!-- CRUD WORKSPACE CONTAINER (Hidden on Dashboard, visible when other menu links are active) -->
+        <div class="container py-4">
+            <!-- CRUD Page Header Row (Dynamically shown/hidden) -->
+            <div class="d-flex align-items-center mb-4 d-none" id="page-title-container">
+                <h2 class="fs-2 m-0 fw-bold text-pink-dark" id="page-title">Dashboard</h2>
+            </div>
+            
+            <!-- Alert Container -->
+            <div id="alert-container"></div>
+
+            <!-- SECTION: Data Kamar -->
+            <section id="kamar-section" class="content-section d-none">
+                <div class="card shadow-sm border-0 my-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="m-0 fw-bold text-pink-dark">Daftar Kamar</h5>
+                            <button class="btn btn-gold btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#kamarModal" onclick="resetKamarForm()">
+                                <i class="bi bi-plus-lg me-1"></i> Tambah Kamar
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle" id="kamar-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID Kamar</th>
+                                        <th>Nomor Kamar</th>
+                                        <th>Lantai</th>
+                                        <th>Kapasitas (Orang)</th>
+                                        <th class="text-end">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic Content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: Data Penghuni -->
+            <section id="penghuni-section" class="content-section d-none">
+                <div class="card shadow-sm border-0 my-3">
+                    <div class="card-body">
+                        <div class="row g-3 mb-4 justify-content-between align-items-center">
+                            <div class="col-md-6 d-flex gap-2">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-pink-muted"></i></span>
+                                    <input type="text" class="form-control border-start-0" id="search-penghuni" placeholder="Cari nama penghuni..." oninput="fetchPenghuni()">
+                                </div>
+                                <select class="form-select form-select-sm w-50" id="filter-kamar" onchange="fetchPenghuni()">
+                                    <option value="">Semua Kamar</option>
+                                    <!-- Dynamic options -->
+                                </select>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <button class="btn btn-gold btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#penghuniModal" onclick="resetPenghuniForm()">
+                                    <i class="bi bi-plus-lg me-1"></i> Tambah Penghuni
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle" id="penghuni-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>No HP</th>
+                                        <th>Alamat</th>
+                                        <th>Kamar</th>
+                                        <th class="text-end">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic Content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: Pembayaran Listrik -->
+            <section id="listrik-section" class="content-section d-none">
+                <div class="card shadow-sm border-0 my-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="m-0 fw-bold text-pink-dark">Daftar Pembayaran Listrik</h5>
+                            <button class="btn btn-gold btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#listrikModal" onclick="resetListrikForm()">
+                                <i class="bi bi-plus-lg me-1"></i> Tambah Pembayaran
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle" id="listrik-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Penghuni</th>
+                                        <th>Periode</th>
+                                        <th>Jumlah Bayar</th>
+                                        <th>Tanggal Bayar</th>
+                                        <th class="text-end">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic Content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: Pembayaran Tahunan -->
+            <section id="tahunan-section" class="content-section d-none">
+                <div class="card shadow-sm border-0 my-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="m-0 fw-bold text-pink-dark">Daftar Pembayaran Sewa Tahunan</h5>
+                            <button class="btn btn-gold btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#tahunanModal" onclick="resetTahunanForm()">
+                                <i class="bi bi-plus-lg me-1"></i> Tambah Pembayaran
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle" id="tahunan-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Penghuni</th>
+                                        <th>Tahun</th>
+                                        <th>Jumlah Bayar</th>
+                                        <th>Tanggal Bayar</th>
+                                        <th class="text-end">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic Content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: Laporan -->
+            <section id="laporan-section" class="content-section d-none">
+                <div class="row g-3 my-3">
+                    <div class="col-md-12">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                                <h5 class="m-0 fw-bold text-pink-dark"><i class="bi bi-bar-chart-fill text-pink-accent me-2"></i>Laporan Hunian Kamar (JOIN, GROUP BY, COUNT)</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-pink-muted small">Menampilkan data rekap kamar, lantai, kapasitas maksimum, jumlah penghuni aktif saat ini, dan sisa slot kosong.</p>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle" id="report-kamar-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID Kamar</th>
+                                                <th>Nomor Kamar</th>
+                                                <th>Lantai</th>
+                                                <th>Kapasitas</th>
+                                                <th>Penghuni Aktif</th>
+                                                <th>Sisa Slot</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic Content -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-white py-3">
+                                <h5 class="m-0 fw-bold text-pink-dark"><i class="bi bi-lightning-charge-fill text-info me-2"></i>Rekap Pembayaran Listrik (GROUP BY, SUM)</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-pink-muted small">Menampilkan total pendapatan dari tagihan listrik berdasarkan bulan dan tahun.</p>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle" id="report-listrik-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Bulan</th>
+                                                <th>Tahun</th>
+                                                <th>Total Transaksi</th>
+                                                <th>Total Pendapatan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic Content -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-white py-3">
+                                <h5 class="m-0 fw-bold text-pink-dark"><i class="bi bi-currency-exchange text-warning me-2"></i>Rekap Pendapatan Tahunan (GROUP BY, SUM)</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-pink-muted small">Menampilkan total pendapatan dari sewa tahunan kost dikelompokkan per tahun.</p>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle" id="report-tahunan-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Tahun</th>
+                                                <th>Total Transaksi</th>
+                                                <th>Total Pendapatan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic Content -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- MODAL: Kamar -->
+    <div class="modal fade" id="kamarModal" tabindex="-1" aria-labelledby="kamarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="kamarForm" onsubmit="saveKamar(event)">
+                    <input type="hidden" id="kamar-id">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold text-pink-dark" id="kamarModalLabel">Tambah Kamar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="kamar-no" class="form-label">Nomor Kamar</label>
+                            <input type="text" class="form-control" id="kamar-no" required placeholder="Contoh: 101, A2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="kamar-lantai" class="form-label">Lantai</label>
+                            <input type="number" class="form-control" id="kamar-lantai" required min="1" placeholder="Masukkan lantai">
+                        </div>
+                        <div class="mb-3">
+                            <label for="kamar-kapasitas" class="form-label">Kapasitas (Orang)</label>
+                            <input type="number" class="form-control" id="kamar-kapasitas" required min="1" placeholder="Masukkan kapasitas">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Penghuni -->
+    <div class="modal fade" id="penghuniModal" tabindex="-1" aria-labelledby="penghuniModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="penghuniForm" onsubmit="savePenghuni(event)">
+                    <input type="hidden" id="penghuni-id">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold text-pink-dark" id="penghuniModalLabel">Tambah Penghuni</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="penghuni-nama" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="penghuni-nama" required placeholder="Nama lengkap">
+                        </div>
+                        <div class="mb-3">
+                            <label for="penghuni-jk" class="form-label">Jenis Kelamin</label>
+                            <select class="form-select" id="penghuni-jk" required>
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="penghuni-hp" class="form-label">No. Handphone</label>
+                            <input type="text" class="form-control" id="penghuni-hp" required placeholder="Contoh: 0812xxxxxxxx">
+                        </div>
+                        <div class="mb-3">
+                            <label for="penghuni-alamat" class="form-label">Alamat Asal</label>
+                            <textarea class="form-control" id="penghuni-alamat" rows="3" required placeholder="Alamat asal lengkap"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="penghuni-kamar" class="form-label">Kamar Kost</label>
+                            <select class="form-select" id="penghuni-kamar">
+                                <option value="">Belum Memiliki Kamar (Kosong)</option>
+                                <!-- Dynamic options -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Listrik -->
+    <div class="modal fade" id="listrikModal" tabindex="-1" aria-labelledby="listrikModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="listrikForm" onsubmit="saveListrik(event)">
+                    <input type="hidden" id="listrik-id">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold text-pink-dark" id="listrikModalLabel">Tambah Pembayaran Listrik</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="listrik-penghuni" class="form-label">Penghuni</label>
+                            <select class="form-select" id="listrik-penghuni" required>
+                                <option value="">Pilih Penghuni</option>
+                                <!-- Dynamic options -->
+                            </select>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="listrik-bulan" class="form-label">Bulan</label>
+                                <select class="form-select" id="listrik-bulan" required>
+                                    <option value="">Pilih Bulan</option>
+                                    <option value="Januari">Januari</option>
+                                    <option value="Februari">Februari</option>
+                                    <option value="Maret">Maret</option>
+                                    <option value="April">April</option>
+                                    <option value="Mei">Mei</option>
+                                    <option value="Juni">Juni</option>
+                                    <option value="Juli">Juli</option>
+                                    <option value="Agustus">Agustus</option>
+                                    <option value="September">September</option>
+                                    <option value="Oktober">Oktober</option>
+                                    <option value="November">November</option>
+                                    <option value="Desember">Desember</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="listrik-tahun" class="form-label">Tahun</label>
+                                <input type="number" class="form-control" id="listrik-tahun" required min="2020" max="2100" value="2026">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="listrik-jumlah" class="form-label">Jumlah Pembayaran (Rupiah)</label>
+                            <input type="number" class="form-control" id="listrik-jumlah" required min="1000" placeholder="Jumlah nominal">
+                        </div>
+                        <div class="mb-3">
+                            <label for="listrik-tanggal" class="form-label">Tanggal Bayar</label>
+                            <input type="date" class="form-control" id="listrik-tanggal" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Tahunan -->
+    <div class="modal fade" id="tahunanModal" tabindex="-1" aria-labelledby="tahunanModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="tahunanForm" onsubmit="saveTahunan(event)">
+                    <input type="hidden" id="tahunan-id">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold text-pink-dark" id="tahunanModalLabel">Tambah Pembayaran Tahunan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="tahunan-penghuni" class="form-label">Penghuni</label>
+                            <select class="form-select" id="tahunan-penghuni" required>
+                                <option value="">Pilih Penghuni</option>
+                                <!-- Dynamic options -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tahunan-tahun" class="form-label">Tahun Sewa</label>
+                            <input type="number" class="form-control" id="tahunan-tahun" required min="2020" max="2100" value="2026">
+                        </div>
+                        <div class="mb-3">
+                            <label for="tahunan-jumlah" class="form-label">Jumlah Pembayaran (Rupiah)</label>
+                            <input type="number" class="form-control" id="tahunan-jumlah" required min="10000" placeholder="Jumlah sewa setahun">
+                        </div>
+                        <div class="mb-3">
+                            <label for="tahunan-tanggal" class="form-label">Tanggal Bayar</label>
+                            <input type="date" class="form-control" id="tahunan-tanggal" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    </div> <!-- /#app-wrapper -->
+
+    <!-- Bootstrap Bundle with Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="/js/app.js"></script>
+</body>
+</html>

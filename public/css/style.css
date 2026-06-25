@@ -1,0 +1,378 @@
+/* --------------------------------------------------
+ * KOS PINK - High-Fidelity Bakery Mockup Style Theme
+ * Powered by Fredoka & Playfair Display Fonts
+ * -------------------------------------------------- */
+
+:root {
+    --primary-color: #d7a5b3;      /* Dusty Rose / Mauve */
+    --primary-hover: #c592a1;      /* Deep Dusty Rose */
+    --success-color: #2ec4b6;      /* Mint Green */
+    --info-color: #4ea8de;         /* Soft Pastel Blue */
+    --warning-color: #ffb703;      /* Cute Mustard Yellow */
+    --danger-color: #ff5c8a;       /* Cute Strawberry Red */
+    
+    --btn-gold: #c3a68f;           /* Warm Beige / Gold */
+    --btn-gold-hover: #b2947d;     /* Darker Warm Gold */
+    
+    --text-pink-dark: #4a1c28;     /* Deep Burgundy / Cocoa */
+    --text-pink-muted: #806068;    /* Muted Cocoa-Pink */
+    
+    --body-bg: #faf6f3;            /* Warm Cream / Light Beige */
+    --cream-bg: #fdfaf7;           /* Soft Pure Cream */
+}
+
+body {
+    font-family: 'Fredoka', sans-serif;
+    background-color: var(--body-bg);
+    color: var(--text-pink-dark);
+    overflow-x: hidden;
+}
+
+/* Header & Brand Logo */
+header.bg-cream {
+    background-color: var(--cream-bg) !important;
+}
+
+.brand-logo {
+    padding: 1.5rem 0 0.5rem 0;
+}
+
+.logo-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--text-pink-dark);
+    font-size: 2.8rem;
+    letter-spacing: -0.02em;
+}
+
+.logo-subtitle {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-pink-muted);
+    letter-spacing: 0.2em;
+    margin: 0;
+}
+
+.text-pink-accent {
+    color: #ff758f !important;
+}
+
+/* Navbar Top Links (Minimalist design like bakery page) */
+.navbar-nav .nav-link {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    color: var(--text-pink-dark) !important;
+    padding: 0.4rem 1.2rem !important;
+    border-radius: 50rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: rgba(215, 165, 179, 0.15);
+    color: var(--primary-hover) !important;
+}
+
+.navbar-nav .nav-link.active {
+    background-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(215, 165, 179, 0.3);
+}
+
+/* Outer wrapper container */
+.main-body-container {
+    background-color: var(--body-bg);
+}
+
+/* 1. Hero Banner Section */
+.hero-banner {
+    background-color: #e2c2ca;  /* Mauve Pink */
+    background-image: radial-gradient(#dcaeb9 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    border: 1px solid #eccdd4;
+    min-height: 380px;
+    border-radius: 1.75rem !important;
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 3.5rem;
+    line-height: 1.1;
+    color: var(--text-pink-dark);
+}
+
+.hero-lead {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-pink-dark);
+}
+
+.hero-img-frame {
+    width: 320px;
+    height: 320px;
+    display: inline-block;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    backdrop-filter: blur(5px);
+    border: 2px dashed #ffffff;
+}
+
+.hero-img-frame img {
+    width: 100%;
+    height: 100%;
+    object-cover: cover;
+}
+
+/* 2. Room Grid Section (Matches "Handcrafted Cakes") */
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    color: var(--text-pink-dark);
+    margin-bottom: 0.25rem;
+}
+
+.section-subtitle {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-pink-muted);
+    letter-spacing: 0.05em;
+}
+
+.title-divider-line {
+    width: 60px;
+    height: 2px;
+    background-color: var(--primary-color);
+    margin: 1rem auto;
+}
+
+/* Product Cards ("Cupcake" style cards) */
+.product-card {
+    border: 1px solid #f2e7e4 !important;
+    border-radius: 1.5rem !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(74, 28, 40, 0.05) !important;
+}
+
+.product-img-wrapper {
+    height: 150px;
+    background-color: var(--body-bg);
+}
+
+.product-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.price-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--text-pink-dark);
+    font-size: 1.15rem;
+}
+
+/* Promo Specials Box (Right side of grid) */
+.promo-box {
+    border: 1px solid #f2e7e4 !important;
+    border-radius: 1.5rem !important;
+    background-color: var(--cream-bg) !important;
+}
+
+.promo-box-title {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--text-pink-muted);
+}
+
+.promo-discount {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 2.8rem;
+    color: var(--text-pink-dark);
+}
+
+/* 3. Bottom Promo Banner (Matches "Limited Time Promo") */
+.bg-pink-banner {
+    background-color: #fad2cb; /* Soft Salmon Pink */
+}
+
+.banner-tag {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--text-pink-dark);
+}
+
+.banner-img-wrapper {
+    height: 250px;
+}
+
+.banner-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.social-btn {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--text-pink-dark);
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+}
+
+.social-btn:hover {
+    background-color: var(--primary-hover);
+    color: #ffffff;
+}
+
+/* Button Gold Style */
+.btn-gold {
+    background-color: var(--btn-gold) !important;
+    border-color: var(--btn-gold) !important;
+    font-weight: 600;
+    border-radius: 50rem !important;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.25s;
+}
+
+.btn-gold:hover, .btn-gold:focus {
+    background-color: var(--btn-gold-hover) !important;
+    border-color: var(--btn-gold-hover) !important;
+    box-shadow: 0 4px 12px rgba(195, 166, 143, 0.35) !important;
+}
+
+/* CRUD Tables & Form Styling */
+.card {
+    border-radius: 1.5rem !important;
+    border: 1px solid #f2e7e4 !important;
+    box-shadow: 0 10px 25px rgba(74, 28, 40, 0.04) !important;
+    background-color: var(--cream-bg) !important;
+}
+
+.table th {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    color: var(--text-pink-dark);
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.table td {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-pink-muted);
+}
+
+.form-control, .form-select {
+    border: 1px solid #e5d5d0;
+    background-color: #ffffff;
+    font-family: 'Fredoka', sans-serif;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.9rem;
+    border-radius: 0.75rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(215, 165, 179, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    border-radius: 50rem !important;
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+}
+
+.badge {
+    padding: 0.45em 0.85em;
+    font-weight: 700;
+    font-size: 0.75rem;
+    border-radius: 50rem;
+}
+
+.bg-success-subtle {
+    background-color: #e6fcf8 !important;
+    color: var(--success-color) !important;
+}
+
+.bg-danger-subtle {
+    background-color: #fff1f2 !important;
+    color: var(--danger-color) !important;
+}
+
+/* Animations */
+.content-section {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Login Screen Overlay */
+#login-wrapper {
+    background-color: var(--body-bg);
+    background-image: radial-gradient(#ffccd5 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+    z-index: 99999 !important;
+}
+
+.login-card {
+    max-width: 420px;
+    width: 90%;
+    border-radius: 2rem !important;
+    border: 1px solid #f2e7e4 !important;
+    box-shadow: 0 15px 40px rgba(74, 28, 40, 0.1) !important;
+}
+
+.z-max {
+    z-index: 99999 !important;
+}
+
+.letter-spacing-1 {
+    letter-spacing: 0.1em;
+}
+
+.fs-7 {
+    font-size: 0.8rem;
+}
