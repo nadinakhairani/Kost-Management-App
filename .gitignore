@@ -1,5 +1,6 @@
 node_modules/
 .env
+.env.local
 
 logs
 *.log
@@ -7,4 +8,4 @@ logs
 dist/
 build/
 
-.vscode/
+.vscode/

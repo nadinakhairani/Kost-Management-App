@@ -1,0 +1,76 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+  command = "echo 'No build step needed'"
+
+[dev]
+  command = "node src/server.js"
+  port = 3000
+  targetPort = 3000
+
+# Redirect semua /api/* ke Netlify Functions
+[[redirects]]
+  from = "/api/kamar"
+  to = "/.netlify/functions/kamar"
+  status = 200
+
+[[redirects]]
+  from = "/api/kamar/*"
+  to = "/.netlify/functions/kamar/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/penghuni"
+  to = "/.netlify/functions/penghuni"
+  status = 200
+
+[[redirects]]
+  from = "/api/penghuni/*"
+  to = "/.netlify/functions/penghuni/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/listrik"
+  to = "/.netlify/functions/listrik"
+  status = 200
+
+[[redirects]]
+  from = "/api/listrik/*"
+  to = "/.netlify/functions/listrik/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/tahunan"
+  to = "/.netlify/functions/tahunan"
+  status = 200
+
+[[redirects]]
+  from = "/api/tahunan/*"
+  to = "/.netlify/functions/tahunan/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/reports"
+  to = "/.netlify/functions/laporan"
+  status = 200
+
+[[redirects]]
+  from = "/api/reports/*"
+  to = "/.netlify/functions/laporan/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/auth"
+  to = "/.netlify/functions/auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/auth/*"
+  to = "/.netlify/functions/auth/:splat"
+  status = 200
+
+# SPA fallback - semua route lain ke index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
