@@ -31,10 +31,9 @@ exports.handler = async (event) => {
         return response(405, { error: 'Method tidak diizinkan' });
     }
 
-    // Ambil sub-path setelah /laporan/
-    // Path: /.netlify/functions/laporan/stats → sub = "stats"
+    // Ambil sub-path setelah /laporan/ atau /reports/
     const pathParts = event.path.split('/').filter(Boolean);
-    const funcIndex = pathParts.findIndex(p => p === 'laporan');
+    const funcIndex = pathParts.findIndex(p => p === 'laporan' || p === 'reports');
     const sub = funcIndex >= 0 ? pathParts[funcIndex + 1] : null;
 
     try {
