@@ -32,11 +32,14 @@ exports.handler = async (event) => {
     const sub = funcIndex >= 0 ? pathParts[funcIndex + 1] : null;
 
     try {
-        const { username, password } = JSON.parse(event.body || '{}');
+        let { username, password } = JSON.parse(event.body || '{}');
 
         if (!username || !password) {
             return response(400, { error: 'Username dan password wajib diisi' });
         }
+
+        // Bersihkan spasi tidak sengaja
+        username = username.trim();
 
         // POST /api/auth/login
         if (!sub || sub === 'login') {
@@ -52,7 +55,12 @@ exports.handler = async (event) => {
             }
 
             if (!admin) {
-                return response(401, { error: 'Username tidak terdaftar' });
+                // DEBUGGING: Ambil semua username yang ada di tabel Admin
+                const { data: allUsers } = await supabase.from('Admin').select('username');
+                const available = allUsers ? allUsers.map(u => `"${u.username}"`).join(', ') : 'Kosong';
+                return response(401, { 
+                    error: `Username "${username}" tidak terdaftar. Data di DB saat ini: [${available}]` 
+                });
             }
 
             if (admin.password !== password) {
