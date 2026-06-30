@@ -44,9 +44,14 @@ exports.handler = async (event) => {
                 .from('Admin')
                 .select('id_admin, username, password')
                 .eq('username', username)
-                .single();
+                .maybeSingle();
 
-            if (error || !admin) {
+            if (error) {
+                console.error('Supabase Login Error:', error);
+                return response(500, { error: 'Database Error: ' + error.message });
+            }
+
+            if (!admin) {
                 return response(401, { error: 'Username tidak terdaftar' });
             }
 
@@ -66,11 +71,16 @@ exports.handler = async (event) => {
         // POST /api/auth/register
         if (sub === 'register') {
             // Cek apakah username sudah digunakan
-            const { data: existing } = await supabase
+            const { data: existing, error: existingError } = await supabase
                 .from('Admin')
                 .select('id_admin')
                 .eq('username', username)
-                .single();
+                .maybeSingle();
+
+            if (existingError) {
+                console.error('Supabase Register Error:', existingError);
+                return response(500, { error: 'Database Error: ' + existingError.message });
+            }
 
             if (existing) {
                 return response(400, { error: 'Username sudah digunakan oleh akun lain' });
